@@ -1,0 +1,7 @@
+[configuration]
+
+entry_symbol = "gdextension_library_init"
+
+[libraries]
+
+linux.64.debug = "bin/libgdextension_nim.so"
