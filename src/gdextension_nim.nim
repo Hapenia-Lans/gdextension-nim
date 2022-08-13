@@ -21,4 +21,3 @@ proc initializeLevel(userdata: pointer, pLevel: GDNativeInitializationLevel): vo
 proc deInitializeLevel(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.}=
   godot.deInitializeLevel(userdata, pLevel)
 
-
