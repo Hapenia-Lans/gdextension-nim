@@ -740,7 +740,7 @@ type
   GDNativeInitialization* {.importc: "GDNativeInitialization",
                            header: "gdnative_interface.h", bycopy.} = object
     minimum_initialization_level* {.importc: "minimum_initialization_level".}: GDNativeInitializationLevel ##  Minimum initialization level required.
-                                                                                                       ##  If Core or Servers, the extension needs editor or game restart to take effect
+                                                                                                       ##  If Core or Servers, the p trextension needs editor or game restart to take effect
     ##  Up to the user to supply when initializing
     userdata* {.importc: "userdata".}: pointer ##  This function will be called multiple times for each initialization level.
     initialize* {.importc: "initialize".}: proc (userdata: pointer;

@@ -42,7 +42,6 @@
 #	mangle wchar_t uint32
 #endif
 
-
 #ifndef GDNATIVE_INTERFACE_H
 #define GDNATIVE_INTERFACE_H
 
