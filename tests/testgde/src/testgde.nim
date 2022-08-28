@@ -1,7 +1,7 @@
 import gdextension_nim/godot as godot
 include gdextension_nim/includes
 
-import modules/example_module as m
+import modules/main_mod as m
 
 # ------------------------------ EXPORT CDYNLIB ------------------------------ #
 
@@ -10,4 +10,3 @@ proc exampleLibraryInit*(pInterface: ptr GDNativeInterface, pLibrary: GDNativeEx
   godot.registerTerminator(m.uninitializeExampleModule)
   godot.setMinimumLibraryInitializationLevel(ModuleInitializationLevel.milScene)
   result = godot.init(pInterface, pLibrary, rInitialization)
-
