@@ -38,9 +38,9 @@ type
 
 ##  VARIANT TYPES
 
-type                          ##  comparison
+type ##  comparison
   GDNativeVariantType* = enum
-    GDNATIVE_VARIANT_TYPE_NIL, ##   atomic types
+    GDNATIVE_VARIANT_TYPE_NIL,                        ##   atomic types
     GDNATIVE_VARIANT_TYPE_BOOL, GDNATIVE_VARIANT_TYPE_INT,
     GDNATIVE_VARIANT_TYPE_FLOAT, GDNATIVE_VARIANT_TYPE_STRING, ##  math types
     GDNATIVE_VARIANT_TYPE_VECTOR2, GDNATIVE_VARIANT_TYPE_VECTOR2I,
@@ -49,11 +49,13 @@ type                          ##  comparison
     GDNATIVE_VARIANT_TYPE_TRANSFORM2D, GDNATIVE_VARIANT_TYPE_VECTOR4,
     GDNATIVE_VARIANT_TYPE_VECTOR4I, GDNATIVE_VARIANT_TYPE_PLANE,
     GDNATIVE_VARIANT_TYPE_QUATERNION, GDNATIVE_VARIANT_TYPE_AABB,
-    GDNATIVE_VARIANT_TYPE_BASIS, GDNATIVE_VARIANT_TYPE_TRANSFORM3D, GDNATIVE_VARIANT_TYPE_PROJECTION, ##  misc types
+    GDNATIVE_VARIANT_TYPE_BASIS, GDNATIVE_VARIANT_TYPE_TRANSFORM3D,
+        GDNATIVE_VARIANT_TYPE_PROJECTION,             ##  misc types
     GDNATIVE_VARIANT_TYPE_COLOR, GDNATIVE_VARIANT_TYPE_STRING_NAME,
     GDNATIVE_VARIANT_TYPE_NODE_PATH, GDNATIVE_VARIANT_TYPE_RID,
     GDNATIVE_VARIANT_TYPE_OBJECT, GDNATIVE_VARIANT_TYPE_CALLABLE,
-    GDNATIVE_VARIANT_TYPE_SIGNAL, GDNATIVE_VARIANT_TYPE_DICTIONARY, GDNATIVE_VARIANT_TYPE_ARRAY, ##  typed arrays
+    GDNATIVE_VARIANT_TYPE_SIGNAL, GDNATIVE_VARIANT_TYPE_DICTIONARY,
+        GDNATIVE_VARIANT_TYPE_ARRAY,                  ##  typed arrays
     GDNATIVE_VARIANT_TYPE_PACKED_BYTE_ARRAY,
     GDNATIVE_VARIANT_TYPE_PACKED_INT32_ARRAY,
     GDNATIVE_VARIANT_TYPE_PACKED_INT64_ARRAY,
@@ -70,11 +72,12 @@ type                          ##  comparison
     GDNATIVE_VARIANT_OP_ADD, GDNATIVE_VARIANT_OP_SUBTRACT,
     GDNATIVE_VARIANT_OP_MULTIPLY, GDNATIVE_VARIANT_OP_DIVIDE,
     GDNATIVE_VARIANT_OP_NEGATE, GDNATIVE_VARIANT_OP_POSITIVE,
-    GDNATIVE_VARIANT_OP_MODULE, GDNATIVE_VARIANT_OP_POWER, ##  bitwise
+    GDNATIVE_VARIANT_OP_MODULE, GDNATIVE_VARIANT_OP_POWER,         ##  bitwise
     GDNATIVE_VARIANT_OP_SHIFT_LEFT, GDNATIVE_VARIANT_OP_SHIFT_RIGHT,
     GDNATIVE_VARIANT_OP_BIT_AND, GDNATIVE_VARIANT_OP_BIT_OR,
-    GDNATIVE_VARIANT_OP_BIT_XOR, GDNATIVE_VARIANT_OP_BIT_NEGATE, ##  logic
-    GDNATIVE_VARIANT_OP_AND, GDNATIVE_VARIANT_OP_OR, GDNATIVE_VARIANT_OP_XOR, GDNATIVE_VARIANT_OP_NOT, ##  containment
+    GDNATIVE_VARIANT_OP_BIT_XOR, GDNATIVE_VARIANT_OP_BIT_NEGATE,   ##  logic
+    GDNATIVE_VARIANT_OP_AND, GDNATIVE_VARIANT_OP_OR, GDNATIVE_VARIANT_OP_XOR,
+        GDNATIVE_VARIANT_OP_NOT,                                   ##  containment
     GDNATIVE_VARIANT_OP_IN, GDNATIVE_VARIANT_OP_MAX
   GDNativeVariantPtr* = pointer
   GDNativeStringNamePtr* = pointer
@@ -93,31 +96,36 @@ type                          ##  comparison
 
 type
   GDNativeCallErrorType* = enum
-    GDNATIVE_CALL_OK, GDNATIVE_CALL_ERROR_INVALID_METHOD, GDNATIVE_CALL_ERROR_INVALID_ARGUMENT, ##  expected is variant type
-    GDNATIVE_CALL_ERROR_TOO_MANY_ARGUMENTS, ##  expected is number of arguments
-    GDNATIVE_CALL_ERROR_TOO_FEW_ARGUMENTS, ##   expected is number of arguments
-    GDNATIVE_CALL_ERROR_INSTANCE_IS_NULL, GDNATIVE_CALL_ERROR_METHOD_NOT_CONST ##  used for const call
+    GDNATIVE_CALL_OK, GDNATIVE_CALL_ERROR_INVALID_METHOD,
+        GDNATIVE_CALL_ERROR_INVALID_ARGUMENT, ##  expected is variant type
+    GDNATIVE_CALL_ERROR_TOO_MANY_ARGUMENTS,  ##  expected is number of arguments
+    GDNATIVE_CALL_ERROR_TOO_FEW_ARGUMENTS,   ##   expected is number of arguments
+    GDNATIVE_CALL_ERROR_INSTANCE_IS_NULL,
+        GDNATIVE_CALL_ERROR_METHOD_NOT_CONST ##  used for const call
   GDNativeCallError* {.bycopy.} = object
     error*: GDNativeCallErrorType
     argument*: int32
     expected*: int32
 
-  GDNativeVariantFromTypeConstructorFunc* = proc (a1: GDNativeVariantPtr;
+  GDNativeVariantFromTypeConstructorFunc * = proc (a1: GDNativeVariantPtr;
       a2: GDNativeTypePtr) {.cdecl.}
-  GDNativeTypeFromVariantConstructorFunc* = proc (a1: GDNativeTypePtr;
+  GDNativeTypeFromVariantConstructorFunc * = proc (a1: GDNativeTypePtr;
       a2: GDNativeVariantPtr) {.cdecl.}
   GDNativePtrOperatorEvaluator* = proc (p_left: GDNativeTypePtr;
                                      p_right: GDNativeTypePtr;
                                      r_result: GDNativeTypePtr) {.cdecl.}
   GDNativePtrBuiltInMethod* = proc (p_base: GDNativeTypePtr;
                                  p_args: ptr GDNativeTypePtr;
-                                 r_return: GDNativeTypePtr; p_argument_count: cint) {.
+                                 r_return: GDNativeTypePtr;
+                                     p_argument_count: cint) {.
       cdecl.}
   GDNativePtrConstructor* = proc (p_base: GDNativeTypePtr;
                                p_args: ptr GDNativeTypePtr) {.cdecl.}
   GDNativePtrDestructor* = proc (p_base: GDNativeTypePtr) {.cdecl.}
-  GDNativePtrSetter* = proc (p_base: GDNativeTypePtr; p_value: GDNativeTypePtr) {.cdecl.}
-  GDNativePtrGetter* = proc (p_base: GDNativeTypePtr; r_value: GDNativeTypePtr) {.cdecl.}
+  GDNativePtrSetter* = proc (p_base: GDNativeTypePtr;
+      p_value: GDNativeTypePtr) {.cdecl.}
+  GDNativePtrGetter* = proc (p_base: GDNativeTypePtr;
+      r_value: GDNativeTypePtr) {.cdecl.}
   GDNativePtrIndexedSetter* = proc (p_base: GDNativeTypePtr; p_index: GDNativeInt;
                                  p_value: GDNativeTypePtr) {.cdecl.}
   GDNativePtrIndexedGetter* = proc (p_base: GDNativeTypePtr; p_index: GDNativeInt;
@@ -132,11 +140,11 @@ type
                                    p_arguments: ptr GDNativeTypePtr;
                                    p_argument_count: cint) {.cdecl.}
   GDNativeClassConstructor* = proc (): GDNativeObjectPtr {.cdecl.}
-  GDNativeInstanceBindingCreateCallback* = proc (p_token: pointer;
+  GDNativeInstanceBindingCreateCallback * = proc (p_token: pointer;
       p_instance: pointer): pointer {.cdecl.}
-  GDNativeInstanceBindingFreeCallback* = proc (p_token: pointer; p_instance: pointer;
-      p_binding: pointer) {.cdecl.}
-  GDNativeInstanceBindingReferenceCallback* = proc (p_token: pointer;
+  GDNativeInstanceBindingFreeCallback* = proc (p_token: pointer;
+      p_instance: pointer; p_binding: pointer) {.cdecl.}
+  GDNativeInstanceBindingReferenceCallback * = proc (p_token: pointer;
       p_binding: pointer; p_reference: GDNativeBool): GDNativeBool {.cdecl.}
   GDNativeInstanceBindingCallbacks* {.bycopy.} = object
     create_callback*: GDNativeInstanceBindingCreateCallback
@@ -156,7 +164,8 @@ type
   GDNativeExtensionClassGet* = proc (p_instance: GDExtensionClassInstancePtr;
                                   p_name: GDNativeStringNamePtr;
                                   r_ret: GDNativeVariantPtr): GDNativeBool {.cdecl.}
-  GDNativeExtensionClassGetRID* = proc (p_instance: GDExtensionClassInstancePtr): uint64 {.
+  GDNativeExtensionClassGetRID* = proc (
+      p_instance: GDExtensionClassInstancePtr): uint64 {.
       cdecl.}
   GDNativePropertyInfo* {.bycopy.} = object
     `type`*: uint32
@@ -169,38 +178,43 @@ type
   GDNativeMethodInfo* {.bycopy.} = object
     name*: cstring
     return_value*: GDNativePropertyInfo
-    flags*: uint32             ##  From GDNativeExtensionClassMethodFlags
+    flags*: uint32 ##  From GDNativeExtensionClassMethodFlags
     id*: int32
     arguments*: ptr GDNativePropertyInfo
     argument_count*: uint32
     default_arguments*: GDNativeVariantPtr
     default_argument_count*: uint32
 
-  GDNativeExtensionClassGetPropertyList* = proc (
-      p_instance: GDExtensionClassInstancePtr; r_count: ptr uint32): ptr GDNativePropertyInfo {.
+  GDNativeExtensionClassGetPropertyList * = proc (
+      p_instance: GDExtensionClassInstancePtr;
+          r_count: ptr uint32): ptr GDNativePropertyInfo {.
       cdecl.}
-  GDNativeExtensionClassFreePropertyList* = proc (
-      p_instance: GDExtensionClassInstancePtr; p_list: ptr GDNativePropertyInfo) {.
+  GDNativeExtensionClassFreePropertyList * = proc (
+      p_instance: GDExtensionClassInstancePtr;
+          p_list: ptr GDNativePropertyInfo) {.
       cdecl.}
   GDNativeExtensionClassNotification* = proc (
       p_instance: GDExtensionClassInstancePtr; p_what: int32) {.cdecl.}
   GDNativeExtensionClassToString* = proc (p_instance: GDExtensionClassInstancePtr;
                                        p_out: GDNativeStringPtr) {.cdecl.}
-  GDNativeExtensionClassReference* = proc (p_instance: GDExtensionClassInstancePtr) {.
+  GDNativeExtensionClassReference* = proc (
+      p_instance: GDExtensionClassInstancePtr) {.
       cdecl.}
   GDNativeExtensionClassUnreference* = proc (
       p_instance: GDExtensionClassInstancePtr) {.cdecl.}
   GDNativeExtensionClassCallVirtual* = proc (
       p_instance: GDExtensionClassInstancePtr; p_args: ptr GDNativeTypePtr;
       r_ret: GDNativeTypePtr) {.cdecl.}
-  GDNativeExtensionClassCreateInstance* = proc (p_userdata: pointer): GDNativeObjectPtr {.
+  GDNativeExtensionClassCreateInstance * = proc (
+      p_userdata: pointer): GDNativeObjectPtr {.
       cdecl.}
   GDNativeExtensionClassFreeInstance* = proc (p_userdata: pointer;
       p_instance: GDExtensionClassInstancePtr) {.cdecl.}
-  GDNativeExtensionClassObjectInstance* = proc (
+  GDNativeExtensionClassObjectInstance * = proc (
       p_instance: GDExtensionClassInstancePtr;
       p_object_instance: GDNativeObjectPtr) {.cdecl.}
-  GDNativeExtensionClassGetVirtual* = proc (p_userdata: pointer; p_name: cstring): GDNativeExtensionClassCallVirtual {.
+  GDNativeExtensionClassGetVirtual* = proc (p_userdata: pointer;
+      p_name: cstring): GDNativeExtensionClassCallVirtual {.
       cdecl.}
   GDNativeExtensionClassCreationInfo* {.bycopy.} = object
     set_func*: GDNativeExtensionClassSet
@@ -229,7 +243,7 @@ type
     GDNATIVE_EXTENSION_METHOD_FLAG_VIRTUAL = 8,
     GDNATIVE_EXTENSION_METHOD_FLAG_VARARG = 16,
     GDNATIVE_EXTENSION_METHOD_FLAG_STATIC = 32
-  GDNativeExtensionClassMethodArgumentMetadata* = enum
+  GDNativeExtensionClassMethodArgumentMetadata * = enum
     GDNATIVE_EXTENSION_METHOD_ARGUMENT_METADATA_NONE,
     GDNATIVE_EXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT8,
     GDNATIVE_EXTENSION_METHOD_ARGUMENT_METADATA_INT_IS_INT16,
@@ -250,17 +264,22 @@ type
       r_ret: GDNativeTypePtr) {.cdecl.}
 
 const
-  GDNATIVE_EXTENSION_METHOD_FLAGS_DEFAULT* = GDNATIVE_EXTENSION_METHOD_FLAG_NORMAL
+  GDNATIVE_EXTENSION_METHOD_FLAGS_DEFAULT *
+    = GDNATIVE_EXTENSION_METHOD_FLAG_NORMAL
 
 
 ##  passing -1 as argument in the following functions refers to the return type
 
 type
-  GDNativeExtensionClassMethodGetArgumentType* = proc (p_method_userdata: pointer;
-      p_argument: int32): GDNativeVariantType {.cdecl.}
-  GDNativeExtensionClassMethodGetArgumentInfo* = proc (p_method_userdata: pointer;
-      p_argument: int32; r_info: ptr GDNativePropertyInfo) {.cdecl.}
-  GDNativeExtensionClassMethodGetArgumentMetadata* = proc (
+  GDNativeExtensionClassMethodGetArgumentType * = proc (
+      p_method_userdata: pointer;
+
+p_argument: int32): GDNativeVariantType {.cdecl.}
+  GDNativeExtensionClassMethodGetArgumentInfo * = proc (
+      p_method_userdata: pointer;
+
+p_argument: int32; r_info: ptr GDNativePropertyInfo) {.cdecl.}
+  GDNativeExtensionClassMethodGetArgumentMetadata * = proc (
       p_method_userdata: pointer; p_argument: int32): GDNativeExtensionClassMethodArgumentMetadata {.
       cdecl.}
   GDNativeExtensionClassMethodInfo* {.bycopy.} = object
@@ -268,7 +287,7 @@ type
     method_userdata*: pointer
     call_func*: GDNativeExtensionClassMethodCall
     ptrcall_func*: GDNativeExtensionClassMethodPtrCall
-    method_flags*: uint32      ##  GDNativeExtensionClassMethodFlags
+    method_flags*: uint32 ##  GDNativeExtensionClassMethodFlags
     argument_count*: uint32
     has_return_value*: GDNativeBool
     get_argument_type_func*: GDNativeExtensionClassMethodGetArgumentType
@@ -281,7 +300,7 @@ type
 ##  SCRIPT INSTANCE EXTENSION
 
 type
-  GDNativeExtensionScriptInstanceDataPtr* = pointer
+  GDNativeExtensionScriptInstanceDataPtr * = pointer
 
 ##  Pointer to custom ScriptInstance native implementation
 
@@ -293,33 +312,35 @@ type
   GDNativeExtensionScriptInstanceGet* = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_name: GDNativeStringNamePtr; r_ret: GDNativeVariantPtr): GDNativeBool {.cdecl.}
-  GDNativeExtensionScriptInstanceGetPropertyList* = proc (
-      p_instance: GDNativeExtensionScriptInstanceDataPtr; r_count: ptr uint32): ptr GDNativePropertyInfo {.
+  GDNativeExtensionScriptInstanceGetPropertyList * = proc (
+      p_instance: GDNativeExtensionScriptInstanceDataPtr;
+          r_count: ptr uint32): ptr GDNativePropertyInfo {.
       cdecl.}
-  GDNativeExtensionScriptInstanceFreePropertyList* = proc (
+  GDNativeExtensionScriptInstanceFreePropertyList * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_list: ptr GDNativePropertyInfo) {.cdecl.}
-  GDNativeExtensionScriptInstanceGetPropertyType* = proc (
+  GDNativeExtensionScriptInstanceGetPropertyType * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_name: GDNativeStringNamePtr; r_is_valid: ptr GDNativeBool): GDNativeVariantType {.
       cdecl.}
-  GDNativeExtensionScriptInstanceGetOwner* = proc (
+  GDNativeExtensionScriptInstanceGetOwner * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr): GDNativeObjectPtr {.
       cdecl.}
-  GDNativeExtensionScriptInstancePropertyStateAdd* = proc (
+  GDNativeExtensionScriptInstancePropertyStateAdd * = proc (
       p_name: GDNativeStringNamePtr; p_value: GDNativeVariantPtr;
       p_userdata: pointer) {.cdecl.}
-  GDNativeExtensionScriptInstanceGetPropertyState* = proc (
+  GDNativeExtensionScriptInstanceGetPropertyState * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_add_func: GDNativeExtensionScriptInstancePropertyStateAdd;
       p_userdata: pointer) {.cdecl.}
-  GDNativeExtensionScriptInstanceGetMethodList* = proc (
-      p_instance: GDNativeExtensionScriptInstanceDataPtr; r_count: ptr uint32): ptr GDNativeMethodInfo {.
+  GDNativeExtensionScriptInstanceGetMethodList * = proc (
+      p_instance: GDNativeExtensionScriptInstanceDataPtr;
+          r_count: ptr uint32): ptr GDNativeMethodInfo {.
       cdecl.}
-  GDNativeExtensionScriptInstanceFreeMethodList* = proc (
+  GDNativeExtensionScriptInstanceFreeMethodList * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_list: ptr GDNativeMethodInfo) {.cdecl.}
-  GDNativeExtensionScriptInstanceHasMethod* = proc (
+  GDNativeExtensionScriptInstanceHasMethod * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       p_name: GDNativeStringNamePtr): GDNativeBool {.cdecl.}
   GDNativeExtensionScriptInstanceCall* = proc (
@@ -327,22 +348,23 @@ type
       p_method: GDNativeStringNamePtr; p_args: ptr GDNativeVariantPtr;
       p_argument_count: GDNativeInt; r_return: GDNativeVariantPtr;
       r_error: ptr GDNativeCallError) {.cdecl.}
-  GDNativeExtensionScriptInstanceNotification* = proc (
-      p_instance: GDNativeExtensionScriptInstanceDataPtr; p_what: int32) {.cdecl.}
-  GDNativeExtensionScriptInstanceToString* = proc (
+  GDNativeExtensionScriptInstanceNotification * = proc (
+      p_instance: GDNativeExtensionScriptInstanceDataPtr;
+          p_what: int32) {.cdecl.}
+  GDNativeExtensionScriptInstanceToString * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr;
       r_is_valid: ptr GDNativeBool): cstring {.cdecl.}
-  GDNativeExtensionScriptInstanceRefCountIncremented* = proc (
+  GDNativeExtensionScriptInstanceRefCountIncremented * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr) {.cdecl.}
-  GDNativeExtensionScriptInstanceRefCountDecremented* = proc (
+  GDNativeExtensionScriptInstanceRefCountDecremented * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr): GDNativeBool {.cdecl.}
-  GDNativeExtensionScriptInstanceGetScript* = proc (
+  GDNativeExtensionScriptInstanceGetScript * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr): GDNativeObjectPtr {.
       cdecl.}
-  GDNativeExtensionScriptInstanceIsPlaceholder* = proc (
+  GDNativeExtensionScriptInstanceIsPlaceholder * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr): GDNativeBool {.cdecl.}
   GDNativeExtensionScriptLanguagePtr* = pointer
-  GDNativeExtensionScriptInstanceGetLanguage* = proc (
+  GDNativeExtensionScriptInstanceGetLanguage * = proc (
       p_instance: GDNativeExtensionScriptInstanceDataPtr): GDNativeExtensionScriptLanguagePtr {.
       cdecl.}
   GDNativeExtensionScriptInstanceFree* = proc (
@@ -383,7 +405,7 @@ type
     version_major*: uint32
     version_minor*: uint32
     version_patch*: uint32
-    version_string*: cstring   ##  GODOT CORE
+    version_string*: cstring ##  GODOT CORE
     mem_alloc*: proc (p_bytes: csize_t): pointer {.cdecl.}
     mem_realloc*: proc (p_ptr: pointer; p_bytes: csize_t): pointer {.cdecl.}
     mem_free*: proc (p_ptr: pointer) {.cdecl.}
@@ -394,8 +416,9 @@ type
     print_script_error*: proc (p_description: cstring; p_function: cstring;
                              p_file: cstring; p_line: int32) {.cdecl.}
     get_native_struct_size*: proc (p_name: cstring): uint64 {.cdecl.} ##  GODOT VARIANT
-                                                                ##  variant general
-    variant_new_copy*: proc (r_dest: GDNativeVariantPtr; p_src: GDNativeVariantPtr) {.
+                             ##  variant general
+    variant_new_copy*: proc (r_dest: GDNativeVariantPtr;
+        p_src: GDNativeVariantPtr) {.
         cdecl.}
     variant_new_nil*: proc (r_dest: GDNativeVariantPtr) {.cdecl.}
     variant_destroy*: proc (p_self: GDNativeVariantPtr) {.cdecl.} ##  variant type
@@ -412,42 +435,54 @@ type
                               r_return: GDNativeVariantPtr;
                               r_error: ptr GDNativeCallError) {.cdecl.}
     variant_evaluate*: proc (p_op: GDNativeVariantOperator; p_a: GDNativeVariantPtr;
-                           p_b: GDNativeVariantPtr; r_return: GDNativeVariantPtr;
+                           p_b: GDNativeVariantPtr;
+                               r_return: GDNativeVariantPtr;
                            r_valid: ptr GDNativeBool) {.cdecl.}
     variant_set*: proc (p_self: GDNativeVariantPtr; p_key: GDNativeVariantPtr;
-                      p_value: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.cdecl.}
+                      p_value: GDNativeVariantPtr;
+                          r_valid: ptr GDNativeBool) {.cdecl.}
     variant_set_named*: proc (p_self: GDNativeVariantPtr;
                             p_key: GDNativeStringNamePtr;
-                            p_value: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.
+                            p_value: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool) {.
         cdecl.}
     variant_set_keyed*: proc (p_self: GDNativeVariantPtr; p_key: GDNativeVariantPtr;
-                            p_value: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.
+                            p_value: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool) {.
         cdecl.}
     variant_set_indexed*: proc (p_self: GDNativeVariantPtr; p_index: GDNativeInt;
                               p_value: GDNativeVariantPtr;
-                              r_valid: ptr GDNativeBool; r_oob: ptr GDNativeBool) {.
+                              r_valid: ptr GDNativeBool;
+                                  r_oob: ptr GDNativeBool) {.
         cdecl.}
     variant_get*: proc (p_self: GDNativeVariantPtr; p_key: GDNativeVariantPtr;
-                      r_ret: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.cdecl.}
+                      r_ret: GDNativeVariantPtr;
+                          r_valid: ptr GDNativeBool) {.cdecl.}
     variant_get_named*: proc (p_self: GDNativeVariantPtr;
                             p_key: GDNativeStringNamePtr;
-                            r_ret: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.
+                            r_ret: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool) {.
         cdecl.}
     variant_get_keyed*: proc (p_self: GDNativeVariantPtr; p_key: GDNativeVariantPtr;
-                            r_ret: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.
+                            r_ret: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool) {.
         cdecl.}
     variant_get_indexed*: proc (p_self: GDNativeVariantPtr; p_index: GDNativeInt;
                               r_ret: GDNativeVariantPtr;
-                              r_valid: ptr GDNativeBool; r_oob: ptr GDNativeBool) {.
+                              r_valid: ptr GDNativeBool;
+                                  r_oob: ptr GDNativeBool) {.
         cdecl.}
     variant_iter_init*: proc (p_self: GDNativeVariantPtr;
-                            r_iter: GDNativeVariantPtr; r_valid: ptr GDNativeBool): GDNativeBool {.
+                            r_iter: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool): GDNativeBool {.
         cdecl.}
     variant_iter_next*: proc (p_self: GDNativeVariantPtr;
-                            r_iter: GDNativeVariantPtr; r_valid: ptr GDNativeBool): GDNativeBool {.
+                            r_iter: GDNativeVariantPtr;
+                                r_valid: ptr GDNativeBool): GDNativeBool {.
         cdecl.}
     variant_iter_get*: proc (p_self: GDNativeVariantPtr; r_iter: GDNativeVariantPtr;
-                           r_ret: GDNativeVariantPtr; r_valid: ptr GDNativeBool) {.
+                           r_ret: GDNativeVariantPtr;
+                               r_valid: ptr GDNativeBool) {.
         cdecl.}
     variant_hash*: proc (p_self: GDNativeVariantPtr): GDNativeInt {.cdecl.}
     variant_recursive_hash*: proc (p_self: GDNativeVariantPtr;
@@ -464,7 +499,8 @@ type
                               p_c: cfloat; r_dst: GDNativeVariantPtr) {.cdecl.}
     variant_duplicate*: proc (p_self: GDNativeVariantPtr; r_ret: GDNativeVariantPtr;
                             p_deep: GDNativeBool) {.cdecl.}
-    variant_stringify*: proc (p_self: GDNativeVariantPtr; r_ret: GDNativeStringPtr) {.
+    variant_stringify*: proc (p_self: GDNativeVariantPtr;
+        r_ret: GDNativeStringPtr) {.
         cdecl.}
     variant_get_type*: proc (p_self: GDNativeVariantPtr): GDNativeVariantType {.cdecl.}
     variant_has_method*: proc (p_self: GDNativeVariantPtr;
@@ -479,12 +515,14 @@ type
                               p_to: GDNativeVariantType): GDNativeBool {.cdecl.}
     variant_can_convert_strict*: proc (p_from: GDNativeVariantType;
                                      p_to: GDNativeVariantType): GDNativeBool {.
-        cdecl.}               ##  ptrcalls
-    get_variant_from_type_constructor*: proc (p_type: GDNativeVariantType): GDNativeVariantFromTypeConstructorFunc {.
+        cdecl.}              ##  ptrcalls
+    get_variant_from_type_constructor*: proc (
+        p_type: GDNativeVariantType): GDNativeVariantFromTypeConstructorFunc {.
         cdecl.}
-    get_variant_to_type_constructor*: proc (p_type: GDNativeVariantType): GDNativeTypeFromVariantConstructorFunc {.
+    get_variant_to_type_constructor*: proc (
+        p_type: GDNativeVariantType): GDNativeTypeFromVariantConstructorFunc {.
         cdecl.}
-    variant_get_ptr_operator_evaluator*: proc (
+    variant_get_ptr_operator_evaluator * : proc (
         p_operator: GDNativeVariantOperator; p_type_a: GDNativeVariantType;
         p_type_b: GDNativeVariantType): GDNativePtrOperatorEvaluator {.cdecl.}
     variant_get_ptr_builtin_method*: proc (p_type: GDNativeVariantType;
@@ -499,19 +537,26 @@ type
                             p_args: ptr GDNativeVariantPtr;
                             p_argument_count: int32;
                             r_error: ptr GDNativeCallError) {.cdecl.}
-    variant_get_ptr_setter*: proc (p_type: GDNativeVariantType; p_member: cstring): GDNativePtrSetter {.
+    variant_get_ptr_setter*: proc (p_type: GDNativeVariantType;
+        p_member: cstring): GDNativePtrSetter {.
         cdecl.}
-    variant_get_ptr_getter*: proc (p_type: GDNativeVariantType; p_member: cstring): GDNativePtrGetter {.
+    variant_get_ptr_getter*: proc (p_type: GDNativeVariantType;
+        p_member: cstring): GDNativePtrGetter {.
         cdecl.}
-    variant_get_ptr_indexed_setter*: proc (p_type: GDNativeVariantType): GDNativePtrIndexedSetter {.
+    variant_get_ptr_indexed_setter*: proc (
+        p_type: GDNativeVariantType): GDNativePtrIndexedSetter {.
         cdecl.}
-    variant_get_ptr_indexed_getter*: proc (p_type: GDNativeVariantType): GDNativePtrIndexedGetter {.
+    variant_get_ptr_indexed_getter*: proc (
+        p_type: GDNativeVariantType): GDNativePtrIndexedGetter {.
         cdecl.}
-    variant_get_ptr_keyed_setter*: proc (p_type: GDNativeVariantType): GDNativePtrKeyedSetter {.
+    variant_get_ptr_keyed_setter*: proc (
+        p_type: GDNativeVariantType): GDNativePtrKeyedSetter {.
         cdecl.}
-    variant_get_ptr_keyed_getter*: proc (p_type: GDNativeVariantType): GDNativePtrKeyedGetter {.
+    variant_get_ptr_keyed_getter*: proc (
+        p_type: GDNativeVariantType): GDNativePtrKeyedGetter {.
         cdecl.}
-    variant_get_ptr_keyed_checker*: proc (p_type: GDNativeVariantType): GDNativePtrKeyedChecker {.
+    variant_get_ptr_keyed_checker*: proc (
+        p_type: GDNativeVariantType): GDNativePtrKeyedChecker {.
         cdecl.}
     variant_get_constant_value*: proc (p_type: GDNativeVariantType;
                                      p_constant: cstring;
@@ -528,23 +573,23 @@ type
                                       p_contents: ptr char32_t) {.cdecl.}
     string_new_with_wide_chars*: proc (r_dest: GDNativeStringPtr;
                                      p_contents: ptr uint32) {.cdecl.}
-    string_new_with_latin1_chars_and_len*: proc (r_dest: GDNativeStringPtr;
+    string_new_with_latin1_chars_and_len * : proc (r_dest: GDNativeStringPtr;
         p_contents: cstring; p_size: GDNativeInt) {.cdecl.}
-    string_new_with_utf8_chars_and_len*: proc (r_dest: GDNativeStringPtr;
+    string_new_with_utf8_chars_and_len * : proc (r_dest: GDNativeStringPtr;
         p_contents: cstring; p_size: GDNativeInt) {.cdecl.}
-    string_new_with_utf16_chars_and_len*: proc (r_dest: GDNativeStringPtr;
+    string_new_with_utf16_chars_and_len * : proc (r_dest: GDNativeStringPtr;
         p_contents: ptr char16_t; p_size: GDNativeInt) {.cdecl.}
-    string_new_with_utf32_chars_and_len*: proc (r_dest: GDNativeStringPtr;
+    string_new_with_utf32_chars_and_len * : proc (r_dest: GDNativeStringPtr;
         p_contents: ptr char32_t; p_size: GDNativeInt) {.cdecl.}
-    string_new_with_wide_chars_and_len*: proc (r_dest: GDNativeStringPtr;
+    string_new_with_wide_chars_and_len * : proc (r_dest: GDNativeStringPtr;
         p_contents: ptr uint32; p_size: GDNativeInt) {.cdecl.} ##  Information about the following functions:
-                                                         ##  - The return value is the resulting encoded string length.
-                                                         ##  - The length returned is in characters, not in bytes. It also does not include a trailing zero.
-                                                         ##  - These functions also do not write trailing zero, If you need it, write it yourself at the position indicated by the length (and make sure to allocate it).
-                                                         ##  - Passing NULL in r_text means only the length is computed (again, without including trailing zero).
-                                                         ##  - p_max_write_length argument is in characters, not bytes. It will be ignored if r_text is NULL.
-                                                         ##  - p_max_write_length argument does not affect the return value, it's only to cap write length.
-                                                         ##
+                             ##  - The return value is the resulting encoded string length.
+                             ##  - The length returned is in characters, not in bytes. It also does not include a trailing zero.
+                             ##  - These functions also do not write trailing zero, If you need it, write it yourself at the position indicated by the length (and make sure to allocate it).
+                             ##  - Passing NULL in r_text means only the length is computed (again, without including trailing zero).
+                             ##  - p_max_write_length argument is in characters, not bytes. It will be ignored if r_text is NULL.
+                             ##  - p_max_write_length argument does not affect the return value, it's only to cap write length.
+                             ##
     string_to_latin1_chars*: proc (p_self: GDNativeStringPtr; r_text: cstring;
                                  p_max_write_length: GDNativeInt): GDNativeInt {.
         cdecl.}
@@ -560,57 +605,60 @@ type
     string_to_wide_chars*: proc (p_self: GDNativeStringPtr; r_text: ptr uint32;
                                p_max_write_length: GDNativeInt): GDNativeInt {.
         cdecl.}
-    string_operator_index*: proc (p_self: GDNativeStringPtr; p_index: GDNativeInt): ptr char32_t {.
+    string_operator_index*: proc (p_self: GDNativeStringPtr;
+        p_index: GDNativeInt): ptr char32_t {.
         cdecl.}
     string_operator_index_const*: proc (p_self: GDNativeStringPtr;
                                       p_index: GDNativeInt): ptr char32_t {.cdecl.} ##  Packed array functions
     packed_byte_array_operator_index*: proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr uint8 {.cdecl.} ##  p_self should be a PackedByteArray
-    packed_byte_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_byte_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr uint8 {.cdecl.} ##  p_self should be a PackedByteArray
     packed_color_array_operator_index*: proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedColorArray, returns Color ptr
-    packed_color_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_color_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedColorArray, returns Color ptr
-    packed_float32_array_operator_index*: proc (p_self: GDNativeTypePtr;
+    packed_float32_array_operator_index * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr cfloat {.cdecl.} ##  p_self should be a PackedFloat32Array
-    packed_float32_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_float32_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr cfloat {.cdecl.} ##  p_self should be a PackedFloat32Array
-    packed_float64_array_operator_index*: proc (p_self: GDNativeTypePtr;
+    packed_float64_array_operator_index * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr cdouble {.cdecl.} ##  p_self should be a PackedFloat64Array
-    packed_float64_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_float64_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr cdouble {.cdecl.} ##  p_self should be a PackedFloat64Array
     packed_int32_array_operator_index*: proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr int32 {.cdecl.} ##  p_self should be a PackedInt32Array
-    packed_int32_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_int32_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr int32 {.cdecl.} ##  p_self should be a PackedInt32Array
     packed_int64_array_operator_index*: proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr int64 {.cdecl.} ##  p_self should be a PackedInt32Array
-    packed_int64_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_int64_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): ptr int64 {.cdecl.} ##  p_self should be a PackedInt32Array
-    packed_string_array_operator_index*: proc (p_self: GDNativeTypePtr;
+    packed_string_array_operator_index * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeStringPtr {.cdecl.} ##  p_self should be a PackedStringArray
-    packed_string_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_string_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeStringPtr {.cdecl.} ##  p_self should be a PackedStringArray
-    packed_vector2_array_operator_index*: proc (p_self: GDNativeTypePtr;
+    packed_vector2_array_operator_index * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedVector2Array, returns Vector2 ptr
-    packed_vector2_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_vector2_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedVector2Array, returns Vector2 ptr
-    packed_vector3_array_operator_index*: proc (p_self: GDNativeTypePtr;
+    packed_vector3_array_operator_index * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedVector3Array, returns Vector3 ptr
-    packed_vector3_array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+    packed_vector3_array_operator_index_const * : proc (p_self: GDNativeTypePtr;
         p_index: GDNativeInt): GDNativeTypePtr {.cdecl.} ##  p_self should be a PackedVector3Array, returns Vector3 ptr
-    array_operator_index*: proc (p_self: GDNativeTypePtr; p_index: GDNativeInt): GDNativeVariantPtr {.
-        cdecl.}               ##  p_self should be an Array ptr
-    array_operator_index_const*: proc (p_self: GDNativeTypePtr; p_index: GDNativeInt): GDNativeVariantPtr {.
-        cdecl.}               ##  p_self should be an Array ptr
-               ##  Dictionary functions
+    array_operator_index*: proc (p_self: GDNativeTypePtr;
+        p_index: GDNativeInt): GDNativeVariantPtr {.
+        cdecl.}              ##  p_self should be an Array ptr
+    array_operator_index_const*: proc (p_self: GDNativeTypePtr;
+        p_index: GDNativeInt): GDNativeVariantPtr {.
+        cdecl.}              ##  p_self should be an Array ptr
+                             ##  Dictionary functions
     dictionary_operator_index*: proc (p_self: GDNativeTypePtr;
                                     p_key: GDNativeVariantPtr): GDNativeVariantPtr {.
-        cdecl.}               ##  p_self should be an Dictionary ptr
+        cdecl.}              ##  p_self should be an Dictionary ptr
     dictionary_operator_index_const*: proc (p_self: GDNativeTypePtr;
         p_key: GDNativeVariantPtr): GDNativeVariantPtr {.cdecl.} ##  p_self should be an Dictionary ptr
-                                                             ##  OBJECT
+                             ##  OBJECT
     object_method_bind_call*: proc (p_method_bind: GDNativeMethodBindPtr;
                                   p_instance: GDNativeObjectPtr;
                                   p_args: ptr GDNativeVariantPtr;
@@ -623,22 +671,27 @@ type
                                      r_ret: GDNativeTypePtr) {.cdecl.}
     object_destroy*: proc (p_o: GDNativeObjectPtr) {.cdecl.}
     global_get_singleton*: proc (p_name: cstring): GDNativeObjectPtr {.cdecl.}
-    object_get_instance_binding*: proc (p_o: GDNativeObjectPtr; p_token: pointer;
-        p_callbacks: ptr GDNativeInstanceBindingCallbacks): pointer {.cdecl.}
+    object_get_instance_binding*: proc (p_o: GDNativeObjectPtr;
+        p_token: pointer;
+
+p_callbacks: ptr GDNativeInstanceBindingCallbacks): pointer {.cdecl.}
     object_set_instance_binding*: proc (p_o: GDNativeObjectPtr; p_token: pointer;
-                                      p_binding: pointer; p_callbacks: ptr GDNativeInstanceBindingCallbacks) {.
+                                      p_binding: pointer;
+                                          p_callbacks: ptr GDNativeInstanceBindingCallbacks) {.
         cdecl.}
     object_set_instance*: proc (p_o: GDNativeObjectPtr; p_classname: cstring;
                               p_instance: GDExtensionClassInstancePtr) {.cdecl.} ##  p_classname should be a registered extension class and should extend the p_o object's class.
-    object_cast_to*: proc (p_object: GDNativeObjectPtr; p_class_tag: pointer): GDNativeObjectPtr {.
+    object_cast_to*: proc (p_object: GDNativeObjectPtr;
+        p_class_tag: pointer): GDNativeObjectPtr {.
         cdecl.}
-    object_get_instance_from_id*: proc (p_instance_id: GDObjectInstanceID): GDNativeObjectPtr {.
+    object_get_instance_from_id*: proc (
+        p_instance_id: GDObjectInstanceID): GDNativeObjectPtr {.
         cdecl.}
     object_get_instance_id*: proc (p_object: GDNativeObjectPtr): GDObjectInstanceID {.
-        cdecl.}               ##  SCRIPT INSTANCE
+        cdecl.}              ##  SCRIPT INSTANCE
     script_instance_create*: proc (p_info: ptr GDNativeExtensionScriptInstanceInfo;
         p_instance_data: GDNativeExtensionScriptInstanceDataPtr): GDNativeScriptInstancePtr {.
-        cdecl.}               ##  CLASSDB
+        cdecl.}              ##  CLASSDB
     classdb_construct_object*: proc (p_classname: cstring): GDNativeObjectPtr {.cdecl.} ##  The passed class must be a built-in godot class, or an already-registered extension class. In both case, object_set_instance should be called to fully initialize the object.
     classdb_get_method_bind*: proc (p_classname: cstring; p_methodname: cstring;
                                   p_hash: GDNativeInt): GDNativeMethodBindPtr {.
@@ -648,28 +701,30 @@ type
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_parent_class_name: cstring;
         p_extension_funcs: ptr GDNativeExtensionClassCreationInfo) {.cdecl.}
-    classdb_register_extension_class_method*: proc (
+    classdb_register_extension_class_method * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_method_info: ptr GDNativeExtensionClassMethodInfo) {.cdecl.}
-    classdb_register_extension_class_integer_constant*: proc (
+    classdb_register_extension_class_integer_constant * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_enum_name: cstring; p_constant_name: cstring;
         p_constant_value: GDNativeInt; p_is_bitfield: GDNativeBool) {.cdecl.}
-    classdb_register_extension_class_property*: proc (
+    classdb_register_extension_class_property * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
-        p_info: ptr GDNativePropertyInfo; p_setter: cstring; p_getter: cstring) {.cdecl.}
-    classdb_register_extension_class_property_group*: proc (
+        p_info: ptr GDNativePropertyInfo; p_setter: cstring;
+            p_getter: cstring) {.cdecl.}
+    classdb_register_extension_class_property_group * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_group_name: cstring; p_prefix: cstring) {.cdecl.}
-    classdb_register_extension_class_property_subgroup*: proc (
+    classdb_register_extension_class_property_subgroup * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_subgroup_name: cstring; p_prefix: cstring) {.cdecl.}
-    classdb_register_extension_class_signal*: proc (
+    classdb_register_extension_class_signal * : proc (
         p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring;
         p_signal_name: cstring; p_argument_info: ptr GDNativePropertyInfo;
         p_argument_count: GDNativeInt) {.cdecl.}
-    classdb_unregister_extension_class*: proc (
-        p_library: GDNativeExtensionClassLibraryPtr; p_class_name: cstring) {.cdecl.} ##  Unregistering a parent class before a class that inherits it will result in failure. Inheritors must be unregistered first.
+    classdb_unregister_extension_class * : proc (
+        p_library: GDNativeExtensionClassLibraryPtr;
+            p_class_name: cstring) {.cdecl.} ##  Unregistering a parent class before a class that inherits it will result in failure. Inheritors must be unregistered first.
     get_library_path*: proc (p_library: GDNativeExtensionClassLibraryPtr;
                            r_path: GDNativeStringPtr) {.cdecl.}
 
@@ -683,12 +738,14 @@ type
     GDNATIVE_MAX_INITIALIZATION_LEVEL
   GDNativeInitialization* {.bycopy.} = object
     minimum_initialization_level*: GDNativeInitializationLevel ##  Minimum initialization level required.
-                                                             ##  If Core or Servers, the extension needs editor or game restart to take effect
-    ##  Up to the user to supply when initializing
-    userdata*: pointer         ##  This function will be called multiple times for each initialization level.
-    initialize*: proc (userdata: pointer; p_level: GDNativeInitializationLevel) {.
+ ##  If Core or Servers, the extension needs editor or game restart to take effect
+ ##  Up to the user to supply when initializing
+    userdata*: pointer ##  This function will be called multiple times for each initialization level.
+    initialize*: proc (userdata: pointer;
+        p_level: GDNativeInitializationLevel) {.
         cdecl.}
-    deinitialize*: proc (userdata: pointer; p_level: GDNativeInitializationLevel) {.
+    deinitialize*: proc (userdata: pointer;
+        p_level: GDNativeInitializationLevel) {.
         cdecl.}
 
 
@@ -699,5 +756,6 @@ type
 
 type
   GDNativeInitializationFunction* = proc (p_interface: ptr GDNativeInterface;
-      p_library: GDNativeExtensionClassLibraryPtr; r_initialization: ptr GDNativeInitialization): GDNativeBool {.
+      p_library: GDNativeExtensionClassLibraryPtr;
+          r_initialization: ptr GDNativeInitialization): GDNativeBool {.
       cdecl.}
