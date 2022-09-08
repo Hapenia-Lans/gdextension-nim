@@ -3,12 +3,12 @@
 # but you can remove it if you wish.
 
 import gdextension_nim/godot
+import gdextension_nim/variant/variant
 include gdextension_nim/includes
 
 export gdnative_interface
 export godot
-
-
+export variant
 
 
 # --------------------------------- EXPORT C --------------------------------- #

@@ -8,5 +8,5 @@ import modules/main_mod as m
 proc exampleLibraryInit*(pInterface: ptr GDNativeInterface, pLibrary: GDNativeExtensionClassLibraryPtr, rInitialization: ptr GDNativeInitialization): GDNativeBool {.gdnExport.} =
   godot.registerInitializer(m.initializeExampleModule)
   godot.registerTerminator(m.uninitializeExampleModule)
-  godot.setMinimumLibraryInitializationLevel(ModuleInitializationLevel.milScene)
+  godot.setMinimumLibraryInitializationLevel(ModuleInitializationLevel.milCore)
   result = godot.init(pInterface, pLibrary, rInitialization)

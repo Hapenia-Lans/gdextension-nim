@@ -11,3 +11,4 @@ proc uninitializeExampleModule*(pLevel: ModuleInitializationLevel) =
   if pLevel != milScene:
     return
   # classDb.unRegisterClass[Example]()
+

@@ -1,7 +1,8 @@
 [configuration]
 
-entry_symbol = "gdextension_library_init"
+entry_symbol = "exampleLibraryInit"
 
 [libraries]
 
-linux.64.debug = "bin/libgdextension_nim.so"
+linux.64.debug = "bin/libtestgde.so"
+windows.64.debug = "bin/libtestgde.dll"

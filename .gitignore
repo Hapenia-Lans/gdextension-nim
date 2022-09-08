@@ -2,3 +2,5 @@ nimcache/
 nimblecache/
 htmldocs/
 .vscode
+.dll
+.so

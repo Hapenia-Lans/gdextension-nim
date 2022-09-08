@@ -1,13 +1,18 @@
 import gdextension_nim
+include gdextension_nim/preludes
 
 
 proc initializeExampleModule*(pLevel: ModuleInitializationLevel) =
+  echo("Level: ", $pLevel)
   if pLevel != milScene:
+    var v = variant("hello_world")
+    GD.printInternal([addr v], 1)
     return
     # classDb.registerClass[Example]()
 
 
 proc uninitializeExampleModule*(pLevel: ModuleInitializationLevel) =
+  echo("Level: ", $pLevel)
   if pLevel != milScene:
     return
   # classDb.unRegisterClass[Example]()

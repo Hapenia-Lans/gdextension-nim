@@ -1,7 +1,10 @@
 
+import ../internal
+import ../wrapped_header/gdnative_interface
+
 type
   Type* = enum
-    NIL,
+    NIL = 0,
 
     # atomic types
     BOOL,
@@ -82,3 +85,27 @@ type
     # containment
     OP_IN,
     OP_MAX,
+
+
+type Variant* = ref object of RootObj
+  opaque: array[24, byte]
+
+
+var fromTypeConstructor: array[VARIANT_MAX, GDNativeVariantFromTypeConstructorFunc]
+var toTypeConstructor: array[VARIANT_MAX, GDNativeTypeFromVariantConstructorFunc]
+
+
+proc initBindings*(): void =
+  # for i in 0..<ord(VARIANT_MAX):
+  #   fromTypeConstructor[i] = gdnInterface.get_variant_from_type_constructor(cast[GDNativeVariantType](i))
+  for i in Type:
+    fromTypeConstructor[i] = gdnInterface.get_variant_from_type_constructor(cast[GDNativeVariantType](ord i))
+    echo "binding ", i
+    toTypeConstructor[i] = gdnInterface.get_variant_to_type_constructor(cast[GDNativeVariantType](ord i))
+
+proc nativePtr*(self: Variant): auto {.inline.} = unsafeAddr self.opaque
+
+
+proc variant*(v: cstring): Variant =
+  result = new Variant
+  fromTypeConstructor[STRING](result.nativePtr(), unsafeAddr v)
