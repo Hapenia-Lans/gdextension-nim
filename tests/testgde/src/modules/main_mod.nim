@@ -7,6 +7,7 @@ proc initializeExampleModule*(pLevel: ModuleInitializationLevel) =
   if pLevel != milScene:
     var v = variant("hello_world")
     GD.printInternal([addr v], 1)
+    #! code above does not work.
     return
     # classDb.registerClass[Example]()
 
