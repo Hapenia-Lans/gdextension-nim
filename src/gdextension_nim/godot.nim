@@ -2,6 +2,7 @@
 import wrapped_header/gdnative_interface
 import internal
 import variant/variant as variant
+include includes
 
 export gdnative_interface
 
@@ -19,16 +20,14 @@ type
 var initCallback: Callback
 var terminateCallback: Callback
 
-proc initializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.cdecl.} =
-  # TODO: Finish this
+proc initializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
   # classDb.currentLevel = pLevel
   let cb = initCallback
   if not cb.isNil():
     cb(cast[ModuleInitializationLevel](pLevel)) 
-  
 
-proc deinitializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.cdecl.} =
-  # TODO: Finish this
+
+proc deinitializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
   # classDb.currentLevel = pLevel
   # classDb.deinitialize(pLevel)
   let cb = terminateCallback
@@ -50,7 +49,7 @@ proc init*(pInterface: ptr GDNativeInterface, pLibrary: GDNativeExtensionClassLi
   # TODO: Finish this
   variant.init_bindings()
 
-  result = 0
+  result = 1
 
 
 proc registerInitializer*(pInit: Callback): void =
@@ -63,6 +62,4 @@ proc registerTerminator*(pTerminate: Callback): void =
 
 proc setMinimumLibraryInitializationLevel*(pLevel: ModuleInitializationLevel): void =
   minimumInitializationLevel = cast[GDNativeInitializationLevel](pLevel)
-
-
 

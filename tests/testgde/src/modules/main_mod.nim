@@ -4,11 +4,8 @@ include gdextension_nim/preludes
 
 proc initializeExampleModule*(pLevel: ModuleInitializationLevel) =
   echo("Level: ", $pLevel)
-  if pLevel != milScene:
-    var v = variant("hello_world")
-    GD.printInternal([addr v], 1)
-    #! code above does not work.
-    return
+  #! code above does not work.
+  return
     # classDb.registerClass[Example]()
 
 

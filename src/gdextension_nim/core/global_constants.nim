@@ -41,7 +41,7 @@ type
 
 
 type
-  GcOrientation* = enum
+  Orientation* = enum
     HORIZONTAL = 0, VERTICAL = 1
 
 
@@ -57,7 +57,7 @@ type
 
 
 type
-  GcVerticalAlignment* = enum
+  VerticalAlignment* = enum
     VERTICAL_ALIGNMENT_TOP = 0, VERTICAL_ALIGNMENT_CENTER = 1,
     VERTICAL_ALIGNMENT_BOTTOM = 2, VERTICAL_ALIGNMENT_FILL = 3
 
