@@ -6,11 +6,11 @@ type
   Axis* = enum
     AxisX, AxisY
 
-  Kind* = enum
-    Basic, Ui
-
   Vector2* = object
     x*, y*: float
+
+
+proc Vec2*(x,y: float): Vector2 = Vector2(x:x,y:y)
 
 
 proc nativePtr*(v: Vector2): pointer = unsafeAddr v

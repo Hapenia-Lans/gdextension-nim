@@ -1,22 +1,15 @@
-import ../godot as godot
+import ../internal
 import std/strformat
 
 
-proc errPrintError(pFunction, pFile, pError, pMessage: cstring, pLine: int32, pIsWarning: bool): void =
+proc errPrintError*(pFunction, pFile, pError, pMessage: cstring, pLine: int32, pIsWarning: bool): void =
   if pIsWarning:
-    godot.gdnInterface.print_warning(pMessage, pFunction, pFile, pLine)
+    gdnInterface.print_warning(pMessage, pFunction, pFile, pLine)
   else:
-    godot.gdnInterface.print_error(pMessage, pFunction, pFile, pLine)
+    gdnInterface.print_error(pMessage, pFunction, pFile, pLine)
 
 
-proc errPrintError(pFunction, pFile, pMessage: cstring, pLine: int32, pError: string, pIsWarning: bool): void =
-  if pIsWarning:
-    godot.gdnInterface.print_warning(pMessage, pFunction, pFile, pLine)
-  else:
-    godot.gdnInterface.print_error(pMessage, pFunction, pFile, pLine)
-
-
-proc errPrintError(pFunction, pFile, pError: cstring, pLine: int32, pIsWarning: bool): void =
+proc errPrintError*(pFunction, pFile, pError: cstring, pLine: int32, pIsWarning: bool): void =
   errPrintError(
     pFunction = pFunction,
     pFile = pFile,
@@ -28,7 +21,7 @@ proc errPrintError(pFunction, pFile, pError: cstring, pLine: int32, pIsWarning: 
   )
 
 
-proc errPrintError(pFunction, pFile: cstring, pLine: int32, pError: string, pIsWarning: bool): void =
+proc errPrintError*(pFunction, pFile: cstring, pLine: int32, pError: cstring, pIsWarning: bool): void =
   errPrintError(
     pFunction = pFunction,
     pFile = pFile,
@@ -39,7 +32,7 @@ proc errPrintError(pFunction, pFile: cstring, pLine: int32, pError: string, pIsW
   )
 
 
-proc errPrintIndexError(pFunction, pFile, pIndexStr, pSizeStr, pMessage: cstring, pLine: int32, pIndex, pSize: int64, fatal: bool) =
+proc errPrintIndexError*(pFunction, pFile, pIndexStr, pSizeStr: cstring, pMessage: string, pLine: int32, pIndex, pSize: int64, fatal: bool) =
   let str = block:
     var res = fmt"Index {pIndexStr} = {pIndex} is out of bounds ({pSizeStr} = {pSize})."
     if fatal: "FATAL: " & res
@@ -48,26 +41,11 @@ proc errPrintIndexError(pFunction, pFile, pIndexStr, pSizeStr, pMessage: cstring
     pFunction = pFunction,
     pFile = pFile,
     pLine = pLine,
-    pMessage = str,
+    pMessage = cstring(str),
     pError = pMessage,
     pIsWarning = false
   )
   # let str = "Index " & $pIndexStr & " = " & $pIndex & " is out of bounds ("
-
-
-proc errPrintIndexError(pFunction, pFile, pIndexStr, pSizeStr: cstring, pMessage: string,  pLine: int32, pIndex, pSize: int64, fatal: bool) =
-  let str = block:
-    var res = fmt"Index {pIndexStr} = {pIndex} is out of bounds ({pSizeStr} = {pSize})."
-    if fatal: "FATAL: " & res
-    else: res
-  errPrintError(
-    pFunction = pFunction,
-    pFile = pFile,
-    pLine = pLine,
-    pMessage = str,
-    pError = pMessage,
-    pIsWarning = false
-  )
 
 
 template ERR_FAIL_INDEX*(mIndex, mSize: int64) =

@@ -51,9 +51,9 @@ proc init*(args: InitArguments, callbacks: InitCallbacks): void =
   args.rInitialization.deinitialize = deinitializeLevel
   args.rInitialization.minimum_initialization_level = minimumInitializationLevel
   g = callbacks
-
-  variant.initBindings()
   
+  #* init all things here
+  variant.initBindings()
 
 
 proc setMinimumLibraryInitializationLevel*(pLevel: ModuleInitializationLevel): void =

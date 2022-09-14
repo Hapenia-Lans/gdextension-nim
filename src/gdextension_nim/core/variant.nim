@@ -3,6 +3,8 @@ import ../internal
 import ../wrapped_header/gdnative_interface
 import method_ptrcall
 
+import ../variant/[vector2]
+
 type
   Type* = enum
     NIL,
@@ -106,23 +108,26 @@ proc initBindings*(): void =
     toTypeConstructor[i] = gdnInterface.get_variant_to_type_constructor(cast[GDNativeVariantType](i))
 
 
+proc nativePtr(v: GodotVariant): pointer = unsafeAddr v[]
+
+
 proc newGodotVariant(): GodotVariant =
   result = new GodotVariant
 
 
 proc Variant*(): GodotVariant =
   result = newGodotVariant()
-  gdnInterface.variant_new_nil(addr result[]);
+  gdnInterface.variant_new_nil(result.nativePtr());
 
 
 proc Variant*(nativePtr: GDNativeVariantPtr): GodotVariant =
   result = newGodotVariant()
-  gdnInterface.variant_new_copy(addr result[], nativePtr)
+  gdnInterface.variant_new_copy(result.nativePtr(), nativePtr)
 
 
 proc Variant*(other: GodotVariant): GodotVariant =
   result = newGodotVariant()
-  gdnInterface.variant_new_copy(addr result[], addr other[])
+  gdnInterface.variant_new_copy(result.nativePtr(), other.nativePtr())
 
 
 proc Variant*(other: sink GodotVariant): GodotVariant =
@@ -134,6 +139,11 @@ proc Variant*(v: bool): GodotVariant =
   result = newGodotVariant()
   var b: GDNativeBool
   encode(v, cast[ptr bool](addr b))
-  fromTypeConstructor[BOOL](addr result[], addr b)
+  fromTypeConstructor[BOOL](result.nativePtr(), addr b)
+
+
+proc Variant*(v: Vector2): GodotVariant =
+  result = newGodotVariant()
+  fromTypeConstructor[VECTOR2](result.nativePtr(), v.nativePtr())
 
 
