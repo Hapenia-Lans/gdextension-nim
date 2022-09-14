@@ -5,4 +5,4 @@ var
   gdnInterface*: ptr GDNativeInterface
   library*: GDNativeExtensionClassLibraryPtr
   initialization*: ptr GDNativeInitialization
-  internalToken*: pointer = nil
+  token*: pointer = nil

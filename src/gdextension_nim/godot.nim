@@ -1,10 +1,11 @@
 
 import wrapped_header/gdnative_interface
 import internal
-import variant/variant as variant
+import core/variant as variant
 include includes
 
 export gdnative_interface
+export variant
 
 
 type
@@ -14,50 +15,45 @@ type
     milScene = GDNATIVE_INITIALIZATION_SCENE,
     milEditor = GDNATIVE_INITIALIZATION_EDITOR,
   
-  Callback* = proc(p_level: ModuleInitializationLevel): void
+  Callback* = proc(lvl: ModuleInitializationLevel): void {.nimcall.}
+
+  InitCallbacks* = tuple
+    initializeCallback, deinitializeCallback: Callback
+  
+  InitArguments* = tuple
+    pInterface: ptr GDNativeInterface
+    pLibrary: GDNativeExtensionClassLibraryPtr
+    rInitialization: ptr GDNativeInitialization
 
 
-var initCallback: Callback
-var terminateCallback: Callback
+type GDNativeIntializeDefect* = object of Defect
 
-proc initializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
-  # classDb.currentLevel = pLevel
-  let cb = initCallback
+
+var g: InitCallbacks
+
+
+
+proc initializeLevel(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
+  let cb = g.initializeCallback
   if not cb.isNil():
-    cb(cast[ModuleInitializationLevel](pLevel)) 
+    cb cast[ModuleInitializationLevel](pLevel)
 
 
-proc deinitializeLevel*(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
-  # classDb.currentLevel = pLevel
-  # classDb.deinitialize(pLevel)
-  let cb = terminateCallback
+proc deinitializeLevel(userdata: pointer, pLevel: GDNativeInitializationLevel): void {.gdnExport.} =
+  let cb = g.deinitializeCallback
   if not cb.isNil():
-    cb(cast[ModuleInitializationLevel](pLevel))
+    cb cast[ModuleInitializationLevel](pLevel)
 
 
-proc init*(pInterface: ptr GDNativeInterface, pLibrary: GDNativeExtensionClassLibraryPtr, rInitialization: ptr GDNativeInitialization): GDNativeBool =
-  gdnInterface = pInterface
-  library = pLibrary
-  internalToken = pLibrary
+proc init*(args: InitArguments, callbacks: InitCallbacks): void =
+  (gdnInterface, library, token) = args
+  args.rInitialization.initialize = initializeLevel
+  args.rInitialization.deinitialize = deinitializeLevel
+  args.rInitialization.minimum_initialization_level = minimumInitializationLevel
+  g = callbacks
 
-  rInitialization.initialize = initializeLevel
-  rInitialization.deinitialize = deinitializeLevel
-  rInitialization.minimum_initialization_level = minimumInitializationLevel
-
-  assert(initCallback != nil, "Initialization callback must be defined.")
-
-  # TODO: Finish this
-  variant.init_bindings()
-
-  result = 1
-
-
-proc registerInitializer*(pInit: Callback): void =
-  initCallback = pInit
-
-
-proc registerTerminator*(pTerminate: Callback): void =
-  terminateCallback = pTerminate
+  variant.initBindings()
+  
 
 
 proc setMinimumLibraryInitializationLevel*(pLevel: ModuleInitializationLevel): void =

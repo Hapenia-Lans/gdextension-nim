@@ -1,4 +1,3 @@
-import ../wrapped_header/gdnative_interface
 
 
 template MAKE_PTRARG(t: typedesc): untyped =
@@ -10,4 +9,5 @@ template MAKE_PTRARG(t: typedesc): untyped =
     cast[ptr t](pPtr)[] = pVal
 
 
-MAKE_PTRARG(bool)
+MAKE_PTRARG bool
+MAKE_PTRARG uint8

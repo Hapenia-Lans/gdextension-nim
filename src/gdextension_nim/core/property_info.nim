@@ -15,13 +15,14 @@ proc getGDNativePropertyInfo*(self: PropertyInfo): GDNativePropertyInfo =
   result = GDNativePropertyInfo(
     `type`: uint32 self.`type`,
     name: self.name,
-    class_name: self.className,
     hint: uint32 self.hint,
+    hint_string: self.hintString,
+    class_name: self.className,
     usage: uint32 self.usage,
   )
 
 
-proc createPropertyInfo*(pType: Type, pName: cstring, pHint: PropertyHint = PROPERTY_HINT_NONE, pHintString: cstring = "", pUsage = PROPERTY_USAGE_DEFAULT, pClassName: cstring = ""): auto =
+proc newPropertyInfo*(pType: Type, pName: cstring, pHint: PropertyHint = PROPERTY_HINT_NONE, pHintString: cstring = "", pUsage = PROPERTY_USAGE_DEFAULT, pClassName: cstring = ""): auto =
   result = PropertyInfo(
     `type`: Type(pType),
     name: pName,
@@ -36,8 +37,8 @@ proc createPropertyInfo*(pType: Type, pName: cstring, pHint: PropertyHint = PROP
     result.className = pClassName
 
 
-proc createPropertyInfo*(pType: GDNativeVariantType, pName: cstring, pHint: PropertyHint = PROPERTY_HINT_NONE, pHintString: cstring = "", pUsage: PropertyUsageFlags = PROPERTY_USAGE_DEFAULT, pClassName: cstring = ""): auto =
-  createPropertyInfo(
+proc newPropertyInfo*(pType: GDNativeVariantType, pName: cstring, pHint: PropertyHint = PROPERTY_HINT_NONE, pHintString: cstring = "", pUsage: PropertyUsageFlags = PROPERTY_USAGE_DEFAULT, pClassName: cstring = ""): auto =
+  newPropertyInfo(
     pType = Type(pType),
     pName = pName,
     pHint = pHint,

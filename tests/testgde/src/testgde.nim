@@ -1,17 +1,24 @@
-import gdextension_nim/godot as godot
+import gdextension_nim as godot
 import gdextension_nim
 include gdextension_nim/includes
 include gdextension_nim/preludes
+import gdextension_nim/utility_functions as GD
 
 
-import modules/main_mod as m
-
-# ------------------------------ EXPORT CDYNLIB ------------------------------ #
-
-proc exampleLibraryInit*(pInterface: ptr GDNativeInterface, pLibrary: GDNativeExtensionClassLibraryPtr, rInitialization: ptr GDNativeInitialization): GDNativeBool {.gdnExport.} =
+proc initializeModule(lvl: ModuleInitializationLevel): void =
+  echo "My GDExtension initializing, level = " & $lvl
+  GD.print(Variant(true))
   
-  godot.registerInitializer(m.initializeExampleModule)
-  godot.registerTerminator(m.uninitializeExampleModule)
-  godot.setMinimumLibraryInitializationLevel(ModuleInitializationLevel.milCore)
-  result = godot.init(pInterface, pLibrary, rInitialization)
-  
+
+proc deInitializeModule(lvl: ModuleInitializationLevel): void =
+  echo "My GDExtension deinitializing, level = " & $lvl
+  GD.print(Variant(false))
+
+
+proc exampleLibraryInit(pInterface: ptr GDNativeInterface, pLibrary: GDNativeExtensionClassLibraryPtr, rInitialization: ptr GDNativeInitialization): GDNativeBool {.gdnExport.} =
+  godot.init(
+    args = (pInterface, pLibrary, rInitialization),
+    callbacks = (initializeModule, deInitializeModule)
+  )
+  return 1
+
