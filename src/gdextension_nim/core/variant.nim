@@ -119,7 +119,6 @@ proc Variant*(): GodotVariant =
   result = newGodotVariant()
   gdnInterface.variant_new_nil(result.nativePtr());
 
-
 proc Variant*(nativePtr: GDNativeVariantPtr): GodotVariant =
   result = newGodotVariant()
   gdnInterface.variant_new_copy(result.nativePtr(), nativePtr)
@@ -135,14 +134,14 @@ proc Variant*(other: sink GodotVariant): GodotVariant =
   swap(result, other)
 
 
-proc Variant*(v: bool): GodotVariant =
+converter Variant*(v: bool): GodotVariant =
   result = newGodotVariant()
   var b: GDNativeBool
   encode(v, cast[ptr bool](addr b))
   fromTypeConstructor[BOOL](result.nativePtr(), addr b)
 
 
-proc Variant*(v: Vector2): GodotVariant =
+converter Variant*(v: Vector2): GodotVariant =
   result = newGodotVariant()
   fromTypeConstructor[VECTOR2](result.nativePtr(), v.nativePtr())
 

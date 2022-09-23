@@ -1,12 +1,12 @@
 import ../wrapped_header/gdnative_interface
 
 type
-  MethodDefinition* = object
+  MethodDefinition* {.bycopy.} = object
     name: string
-    args: seq[string]
-  PropertySetget* = object
+    args: seq[cstring]
+  PropertySetget* {.bycopy.} = object
     index: int
-    setter, getter: string
+    setter, getter: cstring
     
 
 var current_level: GDNativeInitializationLevel

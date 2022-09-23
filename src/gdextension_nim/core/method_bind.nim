@@ -3,12 +3,12 @@ import variant
 
 
 type MethodBind* = object
-  name: string
-  instanceClass: string
+  name: cstring
+  instanceClass: cstring
   argCount: int
   hintFlags: uint32
   isStatic, isConst, hasReturn, isVararg: bool
-  argNames: seq[string]
+  argNames: seq[cstring]
   argTypes: ptr GDNativeVariantType
   defaultArguments: seq[GodotVariant]
 

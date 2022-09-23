@@ -1,5 +1,5 @@
 import ../wrapped_header/gdnative_interface
-from ../variant/variant import Type
+from variant import Type
 from global_constants import PropertyHint, PropertyUsageFlags
 
 type PropertyInfo* = object

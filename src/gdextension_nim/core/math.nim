@@ -52,4 +52,3 @@ proc cubicInterpolate*(fromvalue,tovalue,pre,post,weight: float): float {.inline
     (-pre + 3.0*fromvalue - 3.0*tovalue + post) * weight^3
   )
 
-

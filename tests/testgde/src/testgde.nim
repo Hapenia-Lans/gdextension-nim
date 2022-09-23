@@ -8,6 +8,9 @@ proc initializeModule(lvl: ModuleInitializationLevel): void =
   # var v = Variant(Vec2(10,2))
   # GD.print(v)
   # GD.print(Variant(true))
+  if lvl == ModuleInitializationLevel.milEditor:
+    errPrintError("exampleLibraryInit", "testgde.nim", "Test warning", "A test warning", 23, true)
+    errPrintError("exampleLibraryInit", "testgde.nim", "Test error", "A test error", 23, false)
   
 
 proc deInitializeModule(lvl: ModuleInitializationLevel): void =
